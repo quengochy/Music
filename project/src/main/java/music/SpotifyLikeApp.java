@@ -188,7 +188,7 @@ public class SpotifyLikeApp {
 
             case "l":
                 System.out.println("-->Library<--");
-                for(Map.Entry < String, Song > : song.entrySet()) {
+                for(Map.Entry < String, Song  : song.entrySet()) {
                     Entry<String, Song> s;
                     System.out.println("Title: " + s.getValue().getTitle());
                     System.out.println("Artist: " + s.getValue().getArtist());
