@@ -2,8 +2,10 @@ package music;
 import java.io.File; 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Scanner; 
-  
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Map.Entry;
+
 import javax.sound.sampled.AudioInputStream; 
 import javax.sound.sampled.AudioSystem; 
 import javax.sound.sampled.Clip; 
@@ -38,7 +40,7 @@ public class SpotifyLikeApp {
              s.setTitle("See Tinh");
              s.setYear("2022"); 
              s.setGenre("Pop"); 
-             s.setFilePath("");
+             s.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/See Tinh.wav");
              songs.put(s.getTitle(), s);
 
              s = new Song(); 
@@ -46,7 +48,7 @@ public class SpotifyLikeApp {
              s.setTitle("Cam Nhan");
              s.setYear("2021"); 
              s.setGenre("Rap");
-             s.setFilePath("");
+             s.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/Cam Nhan.wav");
              songs.put(s.getTitle(), s);
 
              s = new Song(); 
@@ -54,7 +56,7 @@ public class SpotifyLikeApp {
              s.setTitle("Sai Gon Dau Co Lanh Dau");
              s.setYear("2020"); 
              s.setGenre("Pop");
-             s.setFilePath("");
+             s.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/Sai Gon Dau Co Lanh Dau.wav");
              songs.put(s.getTitle(), s);
 
              s = new Song(); 
@@ -62,7 +64,7 @@ public class SpotifyLikeApp {
              s.setTitle("Lung Lay");
              s.setYear("2022"); 
              s.setGenre("Hip Hop/Rap");
-             s.setFilePath("");
+             s.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/Lung Lay.wav");
              songs.put(s.getTitle(), s);
 
              s = new Song(); 
@@ -70,7 +72,7 @@ public class SpotifyLikeApp {
              s.setTitle("Soju Love");
              s.setYear("2022"); 
              s.setGenre("R&B/Soul");
-             s.setFilePath("");
+             s.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/Soju Love.wav");
              songs.put(s.getTitle(), s);
 
              s = new Song(); 
@@ -78,7 +80,7 @@ public class SpotifyLikeApp {
              s.setTitle("Di Ve Nha");
              s.setYear("2020"); 
              s.setGenre("Hip-Hop/Rap");
-             s.setFilePath("");
+             s.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/Di Ve Nha.wav");
              songs.put(s.getTitle(), s);
 
              s = new Song(); 
@@ -86,15 +88,15 @@ public class SpotifyLikeApp {
              s.setTitle("Vi Me Anh Bat Chia Tay");
              s.setYear("2022"); 
              s.setGenre("Pop");
-             s.setFilePath("");
+             s.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/Vi Me Anh Bat Chia Tay.wav");
              songs.put(s.getTitle(), s);
 
              s = new Song(); 
-             s.setArtist("Hien Ho");
-             s.setTitle("Gap Nhung Khong O Lai");
-             s.setYear("2020"); 
-             s.setGenre("Pop");
-             s.setFilePath("");
+             s.setArtist("B.Ray");
+             s.setTitle("Yeu Nhu Tre Con");
+             s.setYear("2019"); 
+             s.setGenre("Rap");
+             s.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/Yeu Nhu Tre Con.wav");
              songs.put(s.getTitle(), s);
 
              s = new Song(); 
@@ -102,7 +104,7 @@ public class SpotifyLikeApp {
              s.setTitle("Co Khong Giu Mat Dung Tim");
              s.setYear("2022"); 
              s.setGenre("Pop");
-             s.setFilePath("");
+             s.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/Co Khong Giu Mat Dung Tim.wav");
              songs.put(s.getTitle(), s);
 
              s = new Song(); 
@@ -110,7 +112,7 @@ public class SpotifyLikeApp {
              s.setTitle("Ngay Dau Tien");
              s.setYear("2022"); 
              s.setGenre("Pop");
-             s.setFilePath("");
+             s.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/Ngay Dau Tien.wav");
              songs.put(s.getTitle(), s);
 
         // create a scanner for user input
@@ -149,9 +151,10 @@ public class SpotifyLikeApp {
         System.out.println("[L]ibrary");
         System.out.println("[P]lay");
         System.out.println("[Q]uit");
+        System.out.println("");
 
         System.out.println("");
-        System.out.print("Enter q to Quit:");
+        System.out.print("Press the first letter of the menu screen:");
 
     }
 
@@ -168,15 +171,36 @@ public class SpotifyLikeApp {
 
             case "s":
                 System.out.println("-->Search by title<--");
+                Scanner input = new Scanner(System.in);
+                System.out.println("Please enter the title:");
+                String title = input.nextLine();
+                Song song = songs.get(title);
+
+                if (song != null)
+                {
+                    System.out.println("Your current song is playing");
+                    play(song.getFilePath());
+
+                } else {
+                    System.out.println("Sorry, please try again.");
+            }
                 break;
 
             case "l":
                 System.out.println("-->Library<--");
+                for(Map.Entry < String, Song > : song.entrySet()) {
+                    Entry<String, Song> s;
+                    System.out.println("Title: " + s.getValue().getTitle());
+                    System.out.println("Artist: " + s.getValue().getArtist());
+                    System.out.println("Genre: " + s.getValue().getGenre());
+                    System.out.println("Year: " + s.getValue().getYear());
+                    System.out.println("");
+                }
+
                 break;
                 
             case "p":
                 System.out.println("-->Play<--");
-                play();
                 break;
 
             case "q":
@@ -192,11 +216,11 @@ public class SpotifyLikeApp {
     /*
      * plays an audio file
      */
-    public static void play() {
+    public static void play(String filePath) {
 
         // open the audio file
         // src\library\example audio\cropped_wav\Checkie_Brown_-_11_-_Wirklich_Wichtig_CB_27.wav
-        final File file = new File("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/See Tinh.wav");
+        final File file = new File(filePath);
 
         try {
         
