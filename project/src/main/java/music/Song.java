@@ -1,5 +1,7 @@
 package music;
 
+import java.util.Map.Entry;
+
 public class Song {
 
     public void setArtist(String string) {
@@ -18,6 +20,30 @@ public class Song {
     }
 
     public String getTitle() {
+        return null;
+    }
+
+    public Entry<String, Song>[] entrySet() {
+        return null;
+    }
+
+    public String getFilepath() {
+        return null;
+    }
+
+    public String getArtist() {
+        return null;
+    }
+
+    public String getGenre() {
+        return null;
+    }
+
+    public String getYear() {
+        return null;
+    }
+
+    public String getFilePath() {
         return null;
     }
 
