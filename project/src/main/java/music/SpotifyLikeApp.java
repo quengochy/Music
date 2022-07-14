@@ -1,22 +1,16 @@
 package music;
-import java.io.File; 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Map.Entry;
-
-import javax.sound.sampled.AudioInputStream; 
-import javax.sound.sampled.AudioSystem; 
-import javax.sound.sampled.Clip; 
-import javax.sound.sampled.LineUnavailableException; 
-import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.SourceDataLine;
-import javax.sound.sampled.DataLine.Info;
 
 import static javax.sound.sampled.AudioSystem.getAudioInputStream;
-import static javax.sound.sampled.AudioFormat.Encoding.PCM_SIGNED;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 /*
     To compile: javac SpotifyLikeApp.java
@@ -26,220 +20,255 @@ import static javax.sound.sampled.AudioFormat.Encoding.PCM_SIGNED;
 // declares a class for the app
 public class SpotifyLikeApp {
 
-    // global variables for the app
-    String status;
-    Long position;
-    static Clip audioClip;
-    static HashMap<String, Song> songs = new HashMap<>(); 
+	// global variables for the app
+	String status;
+	Long position;
+	static Clip audioClip;
+	static HashMap<String, Song> songs = new HashMap<>();
 
-    // "main" makes this class a java app that can be executed
-    public static void main(final String[] args) {
-        
-        Song s = new Song(); 
-             s.setArtist("Hoang Thuy Linh"); 
-             s.setTitle("See Tinh");
-             s.setYear("2022"); 
-             s.setGenre("Pop"); 
-             s.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/See Tinh.wav");
-             songs.put(s.getTitle(), s);
+	// "main" makes this class a java app that can be executed
+	public static void main(final String[] args) {
 
-             s = new Song(); 
-             s.setArtist("Seachains");
-             s.setTitle("Cam Nhan");
-             s.setYear("2021"); 
-             s.setGenre("Rap");
-             s.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/Cam Nhan.wav");
-             songs.put(s.getTitle(), s);
+		// create a scanner for user input
+		Scanner input = new Scanner(System.in);
 
-             s = new Song(); 
-             s.setArtist("Chang feat. LeWiuy");
-             s.setTitle("Sai Gon Dau Co Lanh Dau");
-             s.setYear("2020"); 
-             s.setGenre("Pop");
-             s.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/Sai Gon Dau Co Lanh Dau.wav");
-             songs.put(s.getTitle(), s);
+		String userInput = "";
+		while (!userInput.equals("q")) {
 
-             s = new Song(); 
-             s.setArtist("OSAD");
-             s.setTitle("Lung Lay");
-             s.setYear("2022"); 
-             s.setGenre("Hip Hop/Rap");
-             s.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/Lung Lay.wav");
-             songs.put(s.getTitle(), s);
+			menu();
 
-             s = new Song(); 
-             s.setArtist("Obito");
-             s.setTitle("Soju Love");
-             s.setYear("2022"); 
-             s.setGenre("R&B/Soul");
-             s.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/Soju Love.wav");
-             songs.put(s.getTitle(), s);
+			// get input
+			userInput = input.nextLine();
 
-             s = new Song(); 
-             s.setArtist("Den & JustaTee");
-             s.setTitle("Di Ve Nha");
-             s.setYear("2020"); 
-             s.setGenre("Hip-Hop/Rap");
-             s.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/Di Ve Nha.wav");
-             songs.put(s.getTitle(), s);
+			// accept upper or lower case commands
+			userInput.toLowerCase();
 
-             s = new Song(); 
-             s.setArtist("Miu Le & Karik");
-             s.setTitle("Vi Me Anh Bat Chia Tay");
-             s.setYear("2022"); 
-             s.setGenre("Pop");
-             s.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/Vi Me Anh Bat Chia Tay.wav");
-             songs.put(s.getTitle(), s);
+			// do something
+			handleMenu(userInput);
 
-             s = new Song(); 
-             s.setArtist("B.Ray");
-             s.setTitle("Yeu Nhu Tre Con");
-             s.setYear("2019"); 
-             s.setGenre("Rap");
-             s.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/Yeu Nhu Tre Con.wav");
-             songs.put(s.getTitle(), s);
+		}
 
-             s = new Song(); 
-             s.setArtist("Truc Nhan");
-             s.setTitle("Co Khong Giu Mat Dung Tim");
-             s.setYear("2022"); 
-             s.setGenre("Pop");
-             s.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/Co Khong Giu Mat Dung Tim.wav");
-             songs.put(s.getTitle(), s);
+		// close the scanner
+		input.close();
 
-             s = new Song(); 
-             s.setArtist("Duc Phuc");
-             s.setTitle("Ngay Dau Tien");
-             s.setYear("2022"); 
-             s.setGenre("Pop");
-             s.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/Ngay Dau Tien.wav");
-             songs.put(s.getTitle(), s);
+	}
 
-        // create a scanner for user input
-        Scanner input = new Scanner(System.in);
+	/*
+	 * displays the menu for the app
+	 */
+	public static void menu() {
 
-        String userInput = "";
-        while (!userInput.equals("q")) {
+		System.out.println("---- SpotifyLikeApp ----");
+		System.out.println("[H]ome");
+		System.out.println("[S]earch by title");
+		System.out.println("[L]ibrary");
+		System.out.println("[P]lay");
+		System.out.println("[Q]uit");
+		System.out.println("");
 
-            menu();
+		System.out.println("");
+		System.out.print("Press the first letter of the menu screen:");
 
-            // get input
-            userInput = input.nextLine();
+	}
 
-            // accept upper or lower case commands
-            userInput.toLowerCase();
+	/*
+	 * handles the user input for the app
+	 */
+	public static void handleMenu(String userInput) {
 
-            // do something
-            handleMenu(userInput);
+		switch (userInput) {
 
-        }
+		case "h":
+			System.out.println("-->Home<--");
+			break;
 
-        // close the scanner
-        input.close();
+		case "s":
+			System.out.println("-->Search by title<--");
+			Scanner input = new Scanner(System.in);
+			System.out.println("Please enter the title:");
+			String title = input.nextLine();
 
-    }
+			Song song = findSong(title, initializeLibrary());
 
+			if (song != null) {
+				System.out.println("Your current song is playing");
+				play(song.getFilePath());
 
-    /*
-     * displays the menu for the app
-     */
-    public static void menu() {
+			} else {
+				System.out.println("Sorry, please try again.");
+			}
+			break;
 
-        System.out.println("---- SpotifyLikeApp ----");
-        System.out.println("[H]ome");
-        System.out.println("[S]earch by title");
-        System.out.println("[L]ibrary");
-        System.out.println("[P]lay");
-        System.out.println("[Q]uit");
-        System.out.println("");
+		case "l":
+			List<Song> songList = initializeLibrary();
+			System.out.println("-->Library<--");
+			for (int i = 0; i < songList.size(); i++) {
 
-        System.out.println("");
-        System.out.print("Press the first letter of the menu screen:");
+				Song songObj = songList.get(i);
+				System.out.println(i + "- Title: " + songObj.getTitle() + "  Artist: " + " Genre: " + songObj.getGenre()
+						+ "  Year: " + songObj.getYear());
 
-    }
+			}
+			break;
 
-    /*
-     * handles the user input for the app
-     */
-    public static void handleMenu(String userInput) {
+		case "p":
+			System.out.println("-->Play<--");
+			break;
 
-        switch (userInput) {
+		case "q":
+			System.out.println("-->Quit<--");
+			break;
 
-            case "h":
-                System.out.println("-->Home<--");
-                break;
+		default:
+			break;
+		}
 
-            case "s":
-                System.out.println("-->Search by title<--");
-                Scanner input = new Scanner(System.in);
-                System.out.println("Please enter the title:");
-                String title = input.nextLine();
-                Song song = songs.get(title);
+	}
 
-                if (song != null)
-                {
-                    System.out.println("Your current song is playing");
-                    play(song.getFilePath());
+	// initializes the song to the library
+	public static List<Song> initializeLibrary() {
 
-                } else {
-                    System.out.println("Sorry, please try again.");
-            }
-                break;
+		List<Song> songList = new ArrayList<Song>();
 
-            case "l":
-                System.out.println("-->Library<--");
-                for(Map.Entry < String, Song  : song.entrySet()) {
-                    Entry<String, Song> s;
-                    System.out.println("Title: " + s.getValue().getTitle());
-                    System.out.println("Artist: " + s.getValue().getArtist());
-                    System.out.println("Genre: " + s.getValue().getGenre());
-                    System.out.println("Year: " + s.getValue().getYear());
-                    System.out.println("");
-                }
+		Song s1 = new Song();
+		s1.setArtist("Hoang Thuy Linh");
+		s1.setTitle("See Tinh");
+		s1.setYear("2022");
+		s1.setGenre("Pop");
+		s1.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/See Tinh.wav");
+		songList.add(s1);
+		// songs.put(s.getTitle(), s);
+		Song s2 = new Song();
+		s2 = new Song();
+		s2.setArtist("Seachains");
+		s2.setTitle("Cam Nhan");
+		s2.setYear("2021");
+		s2.setGenre("Rap");
+		s2.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/Cam Nhan.wav");
+		songList.add(s2);
+		// songs.put(s.getTitle(), s);
 
-                break;
-                
-            case "p":
-                System.out.println("-->Play<--");
-                break;
+		Song s3 = new Song();
+		s3 = new Song();
+		s3.setArtist("Chang feat. LeWiuy");
+		s3.setTitle("Sai Gon Dau Co Lanh");
+		s3.setYear("2020");
+		s3.setGenre("Pop");
+		s3.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/Sai-Gon-Dau-Co-Lanh.wav");
+		songList.add(s3);
+		// songs.put(s.getTitle(), s);
+		Song s4 = new Song();
+		s4 = new Song();
+		s4.setArtist("OSAD");
+		s4.setTitle("Lung Lay");
+		s4.setYear("2022");
+		s4.setGenre("Hip Hop/Rap");
+		s4.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/Lung Lay.wav");
+		// songs.put(s.getTitle(), s);
+		songList.add(s4);
 
-            case "q":
-                System.out.println("-->Quit<--");
-                break;
+		Song s5 = new Song();
+		s5 = new Song();
+		s5.setArtist("Obito");
+		s5.setTitle("Soju Love");
+		s5.setYear("2022");
+		s5.setGenre("R&B/Soul");
+		s5.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/Soju Love.wav");
+		// songs.put(s.getTitle(), s);
+		songList.add(s5);
 
-            default:
-                break;
-        }
+		Song s6 = new Song();
+		s6 = new Song();
+		s6.setArtist("Den & JustaTee");
+		s6.setTitle("Di Ve Nha");
+		s6.setYear("2020");
+		s6.setGenre("Hip-Hop/Rap");
+		s6.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/Di Ve Nha.wav");
+		// songs.put(s.getTitle(), s);
+		songList.add(s6);
 
-    }
+		Song s7 = new Song();
+		s7 = new Song();
+		s7.setArtist("Miu Le & Karik");
+		s7.setTitle("Vi Me Anh Bat Chia Tay");
+		s7.setYear("2022");
+		s7.setGenre("Pop");
+		s7.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/Vi-Me-Anh-Bat-Chia-Tay.wav");
+		// songs.put(s.getTitle(), s);
+		songList.add(s7);
 
-    /*
-     * plays an audio file
-     */
-    public static void play(String filePath) {
+		Song s8 = new Song();
+		s8 = new Song();
+		s8.setArtist("B.Ray");
+		s8.setTitle("Yeu Nhu Tre Con");
+		s8.setYear("2019");
+		s8.setGenre("Rap");
+		s8.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/Yeu Nhu Tre Con.wav");
+		// songs.put(s.getTitle(), s);
+		songList.add(s8);
 
-        // open the audio file
-        // src\library\example audio\cropped_wav\Checkie_Brown_-_11_-_Wirklich_Wichtig_CB_27.wav
-        final File file = new File(filePath);
+		Song s9 = new Song();
+		s9 = new Song();
+		s9.setArtist("Truc Nhan");
+		s9.setTitle("Co Khong Giu Mat Dung Tim");
+		s9.setYear("2022");
+		s9.setGenre("Pop");
+		s9.setFilePath(
+				"/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/Co Khong Giu Mat Dung Tim.wav");
+		// songs.put(s.getTitle(), s);
+		songList.add(s9);
 
-        try {
-        
-            // create clip 
-            audioClip = AudioSystem.getClip();
+		Song s10 = new Song();
+		s10 = new Song();
+		s10.setArtist("Duc Phuc");
+		s10.setTitle("Ngay Dau Tien");
+		s10.setYear("2022");
+		s10.setGenre("Pop");
+		s10.setFilePath("/Users/quengochy/Documents/GitHub/Music/project/src/main/java/music/wav/Ngay Dau Tien.wav");
+		// songs.put(s.getTitle(), s);
+		songList.add(s10);
 
-            // get input stream
-            final AudioInputStream in = getAudioInputStream(file);
+		return songList;
+	}
 
-            audioClip.open(in);
-            audioClip.setMicrosecondPosition(0);
-            audioClip.loop(Clip.LOOP_CONTINUOUSLY);
+	// search song
+	static Song findSong(String title, List<Song> songList) {
+		for (Song song : songList) {
+			if (song.getTitle().equals(title)) {
+				return song;
+			}
 
-        } catch(Exception e) {
-            e.printStackTrace(); 
-        }
+		}
+		return null;
 
-    }
+	}
 
+	/*
+	 * plays an audio file
+	 */
+	public static void play(String filePath) {
+
+		// open the audio file
+		// src\library\example
+		// audio\cropped_wav\Checkie_Brown_-_11_-_Wirklich_Wichtig_CB_27.wav
+		final File file = new File(filePath);
+
+		try {
+
+			// create clip
+			audioClip = AudioSystem.getClip();
+
+			// get input stream
+			final AudioInputStream in = getAudioInputStream(file);
+
+			audioClip.open(in);
+			audioClip.setMicrosecondPosition(0);
+			audioClip.loop(Clip.LOOP_CONTINUOUSLY);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 
 }
-
