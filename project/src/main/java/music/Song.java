@@ -1,50 +1,52 @@
 package music;
 
-import java.util.Map.Entry;
-
 public class Song {
+	// attributes of a song
+	private String artist;
+	private String title;
+	private String year;
+	private String genre;
+	private String filePath;
 
-    public void setArtist(String string) {
-    }
+	// getters and setters
+	public String getArtist() {
+		return artist;
+	}
 
-    public void setTitle(String string) {
-    }
+	public void setArtist(String artist) {
+		this.artist = artist;
+	}
 
-    public void setYear(String string) {
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public void setGenre(String string) {
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public void setFilePath(String string) {
-    }
+	public String getYear() {
+		return year;
+	}
 
-    public String getTitle() {
-        return null;
-    }
+	public void setYear(String year) {
+		this.year = year;
+	}
 
-    public Entry<String, Song>[] entrySet() {
-        return null;
-    }
+	public String getGenre() {
+		return genre;
+	}
 
-    public String getFilepath() {
-        return null;
-    }
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
 
-    public String getArtist() {
-        return null;
-    }
+	public String getFilePath() {
+		return filePath;
+	}
 
-    public String getGenre() {
-        return null;
-    }
-
-    public String getYear() {
-        return null;
-    }
-
-    public String getFilePath() {
-        return null;
-    }
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
 
 }
