@@ -140,6 +140,23 @@ public class SpotifyLikeApp {
 			}
 			break;
 
+			case "f":
+			System.out.println("-->Favourite<--");
+			if (favouriteSongs.isEmpty() == true) {
+				System.out.println("Favourite List is Empty , Search and Play song to Add");
+			} else {
+				for (int i = 0; i < favouriteSongs.size(); i++) {
+
+					Song songObj = favouriteSongs.get(i);
+					System.out.println(
+							i + "- Title: " + songObj.getTitle() + "  Artist: " + songObj.getArtist() + " Genre: " + songObj.getGenre()
+									+ "  Year: " + songObj.getYear() + " Favourite: " + songObj.isFavourite());
+
+				}
+			}
+
+			break;
+
 		case "p":
 			System.out.println("-->Play<--");
 			break;
@@ -154,11 +171,43 @@ public class SpotifyLikeApp {
 
 	}
 
-	private static void choiceAction(String lowerCase, Clip audioClip2) {
-	}
+		// handling the play pause stop choices
+		public static void choiceAction(String choice, Clip audioClip) throws LineUnavailableException {
 
-	private static void displaySongDetails(Song song) {
-	}
+			switch (choice) {
+			case "d":
+				audioClip.stop();
+				break;
+			case "p":
+				audioClip.start();
+				break;
+			case "x":
+				audioClip.stop();
+				break;
+			case "r":
+				long currentTime = audioClip.getMicrosecondPosition();
+				long newTime = currentTime - 5000000;
+				if (newTime < 0) {
+					audioClip.setMicrosecondPosition(0);
+				} else {
+					audioClip.setMicrosecondPosition(newTime);
+				}
+	
+				break;
+			case "n":
+				long currentTimeN = audioClip.getMicrosecondPosition();
+				long newTimeN = currentTimeN + 5000000;
+				if (newTimeN > audioClip.getMicrosecondLength()) {
+					audioClip.setMicrosecondPosition(audioClip.getMicrosecondLength());
+				} else {
+					audioClip.setMicrosecondPosition(newTimeN);
+				}
+				break;
+	
+			}
+	
+		}
+
 
 	// initializes the song to the library
 	public static List<Song> initializeLibrary() {
@@ -278,6 +327,18 @@ public class SpotifyLikeApp {
 
 	}
 
+	public static void displaySongDetails(Song song) {
+		System.out.println("--------------------------------");
+		System.out.println("Artist: " + song.getArtist());
+		System.out.println("Title: " + song.getTitle());
+		System.out.println("Year: " + song.getYear());
+		System.out.println("Genre: " + song.getGenre());
+		System.out.println("IsFavourite: " + song.isFavourite());
+		System.out.println("FilePath: " + song.getFilePath());
+		System.out.println("--------------------------------");
+	
+	}
+
 	/*
 	 * plays an audio file
 	 */
@@ -303,6 +364,7 @@ public class SpotifyLikeApp {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return audioClip;
 
 	}
 
