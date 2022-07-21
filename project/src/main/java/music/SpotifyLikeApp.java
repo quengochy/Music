@@ -26,9 +26,10 @@ public class SpotifyLikeApp {
 	Long position;
 	static Clip audioClip;
 	static HashMap<String, Song> songs = new HashMap<>();
+	static List<Song> favouriteSongs = new ArrayList<Song>();
 
 	// "main" makes this class a java app that can be executed
-	public static void main(final String[] args) {
+	public static void main(final String[] args) throws LineUnavailableException {
 
 		// create a scanner for user input
 		Scanner input = new Scanner(System.in);
@@ -75,7 +76,7 @@ public class SpotifyLikeApp {
 	/*
 	 * handles the user input for the app
 	 */
-	public static void handleMenu(String userInput) {
+	public static void handleMenu(String userInput) throws LineUnavailableException {
 
 		switch (userInput) {
 
@@ -93,7 +94,34 @@ public class SpotifyLikeApp {
 
 			if (song != null) {
 				System.out.println("Your current song is playing");
-				play(song.getFilePath());
+				audioClip = play(song.getFilePath());
+				displaySongDetails(song);
+				if (song.isFavourite() == false) {
+					System.out.println("Add song to favourite list? press ( Y / N )");
+					String response = input.nextLine();
+					if (response.equalsIgnoreCase("y")) {
+						song.setFavourite(true);
+						favouriteSongs.add(song);
+					}
+
+				}
+
+				String choice = "";
+				if (choice.equalsIgnoreCase("x")) {
+					choiceAction(choice.toLowerCase(), audioClip);
+				}
+
+				while (!choice.equalsIgnoreCase("x")) {
+					System.out.println("Press D to Pause");
+					System.out.println("Press P to Play");
+					System.out.println("Press X to Stop");
+					System.out.println("Press R to Rewind");
+					System.out.println("Press N to Foward");
+
+					choice = input.nextLine();
+
+					choiceAction(choice.toLowerCase(), audioClip);
+				}
 
 			} else {
 				System.out.println("Sorry, please try again.");
@@ -124,6 +152,12 @@ public class SpotifyLikeApp {
 			break;
 		}
 
+	}
+
+	private static void choiceAction(String lowerCase, Clip audioClip2) {
+	}
+
+	private static void displaySongDetails(Song song) {
 	}
 
 	// initializes the song to the library
@@ -247,7 +281,7 @@ public class SpotifyLikeApp {
 	/*
 	 * plays an audio file
 	 */
-	public static void play(String filePath) {
+	public static Clip play(String filePath) {
 
 		// open the audio file
 		// src\library\example
