@@ -49,4 +49,11 @@ public class Song {
 		this.filePath = filePath;
 	}
 
+    public boolean isFavourite() {
+        return false;
+    }
+
+    public void setFavourite(boolean b) {
+    }
+
 }
