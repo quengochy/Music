@@ -11,6 +11,7 @@ import java.util.Scanner;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
 
 /*
     To compile: javac SpotifyLikeApp.java
@@ -105,7 +106,7 @@ public class SpotifyLikeApp {
 			for (int i = 0; i < songList.size(); i++) {
 
 				Song songObj = songList.get(i);
-				System.out.println(i + "- Title: " + songObj.getTitle() + "  Artist: " + " Genre: " + songObj.getGenre()
+				System.out.println(i + "- Title: " + songObj.getTitle() + "  Artist: " + songObj.getArtist() + " Genre: " + songObj.getGenre()
 						+ "  Year: " + songObj.getYear());
 
 			}
